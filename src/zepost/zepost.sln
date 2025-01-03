@@ -1,0 +1,45 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zepost.AppHost", "zepost.AppHost\zepost.AppHost.csproj", "{AA76819A-D091-47AE-BA30-09C697932577}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zepost.ServiceDefaults", "zepost.ServiceDefaults\zepost.ServiceDefaults.csproj", "{89E3FBA8-39F2-417E-AE11-A060BFE5E66E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zepost.ApiService", "zepost.ApiService\zepost.ApiService.csproj", "{6DA60430-F4FD-4B77-A1CE-584052B44DF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zepost.Web", "zepost.Web\zepost.Web.csproj", "{C674A0EC-4229-4C40-953B-499609F46FF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zepost.Tests", "zepost.Tests\zepost.Tests.csproj", "{227AAC9A-F61D-4938-ABBA-88C655D09949}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA76819A-D091-47AE-BA30-09C697932577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA76819A-D091-47AE-BA30-09C697932577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA76819A-D091-47AE-BA30-09C697932577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA76819A-D091-47AE-BA30-09C697932577}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89E3FBA8-39F2-417E-AE11-A060BFE5E66E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89E3FBA8-39F2-417E-AE11-A060BFE5E66E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89E3FBA8-39F2-417E-AE11-A060BFE5E66E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89E3FBA8-39F2-417E-AE11-A060BFE5E66E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA60430-F4FD-4B77-A1CE-584052B44DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA60430-F4FD-4B77-A1CE-584052B44DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA60430-F4FD-4B77-A1CE-584052B44DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA60430-F4FD-4B77-A1CE-584052B44DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C674A0EC-4229-4C40-953B-499609F46FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C674A0EC-4229-4C40-953B-499609F46FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C674A0EC-4229-4C40-953B-499609F46FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C674A0EC-4229-4C40-953B-499609F46FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{227AAC9A-F61D-4938-ABBA-88C655D09949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{227AAC9A-F61D-4938-ABBA-88C655D09949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{227AAC9A-F61D-4938-ABBA-88C655D09949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{227AAC9A-F61D-4938-ABBA-88C655D09949}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
