@@ -10,20 +10,59 @@
     <nav class="nav flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill" aria-hidden="true"></span> Dashboard
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="publishing">
+                <span class="bi bi-upload" aria-hidden="true"></span> Publishing
             </NavLink>
+            <nav class="nav flex-column ms-3">
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="publishing/calendar">
+                        <span class="bi bi-calendar" aria-hidden="true"></span> Calendar
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="publishing/drafts">
+                        <span class="bi bi-file-earmark-text" aria-hidden="true"></span> Drafts
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="publishing/published">
+                        <span class="bi bi-check-circle" aria-hidden="true"></span> Published
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="publishing/failed">
+                        <span class="bi bi-x-circle" aria-hidden="true"></span> Failed
+                    </NavLink>
+                </div>
+            </nav>
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link" href="reports">
+                <span class="bi bi-bar-chart-line-fill" aria-hidden="true"></span> Reports
             </NavLink>
+            <nav class="nav flex-column ms-3">
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="reports/profile-performance">
+                        <span class="bi bi-person" aria-hidden="true"></span> Profile Performance
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="reports/post-performance">
+                        <span class="bi bi-file-earmark-bar-graph" aria-hidden="true"></span> Post Performance
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="reports/tag-performance">
+                        <span class="bi bi-tags" aria-hidden="true"></span> Tag Performance
+                    </NavLink>
+                </div>
+            </nav>
         </div>
     </nav>
 </div>
