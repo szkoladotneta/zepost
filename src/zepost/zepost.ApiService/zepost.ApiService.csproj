@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.68.0.3624" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
   </ItemGroup>
 
@@ -18,7 +19,7 @@
     <Folder Include="API\" />
     <Folder Include="Application\" />
     <Folder Include="Domain\" />
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Infrastructure\Services\" />
   </ItemGroup>
 
 </Project>
