@@ -1,0 +1,201 @@
+@page "/reports/videos"
+
+@using zepost.Web.Models
+@inject ApiClient ApiClient
+
+<div class="grid-container">
+    <DxGrid @ref="grid"
+            Data="@Videos"
+            ColumnResizeMode="GridColumnResizeMode.NextColumn"
+            TextWrapEnabled="false"
+            PageSize="20"
+            VirtualScrollEnabled="true"
+            CustomizeElement="@OnCustomizeElement">
+        <Columns>
+            <DxGridDataColumn Caption="Thumbnail"
+                              FieldName="ThumbnailUrl"
+                              MinWidth="120"
+                              AllowSort="false">
+                <CellDisplayTemplate>
+                    <img src="@context.Value.ToString()"
+                         style="width: 100px;"
+                         alt="@context.Grid.GetRowValue(context.VisibleIndex, "Title")"/>
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn Caption="Title"
+                              FieldName="Title"
+                              MinWidth="250"/>
+
+            <DxGridDataColumn Caption="Description"
+                              FieldName="Description"
+                              MinWidth="300">
+                <CellDisplayTemplate>
+                    @{
+                        var description = context.Value?.ToString();
+                        @(description?.Length > 100 ? description[..100] + "..." : description)
+                    }
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn Caption="Views"
+                              FieldName="ViewCount"
+                              Width="100"
+                              SortIndex="0"
+                              SortOrder="GridColumnSortOrder.Descending">
+                <CellDisplayTemplate>
+                    @(ulong.Parse(context.Value?.ToString() ?? "0").ToString("N0"))
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn Caption="Likes"
+                              FieldName="LikeCount"
+                              Width="100">
+                <CellDisplayTemplate>
+                    @(ulong.Parse(context.Value?.ToString() ?? "0").ToString("N0"))
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn Caption="Comments"
+                              FieldName="CommentCount"
+                              Width="100">
+                <CellDisplayTemplate>
+                    @(ulong.Parse(context.Value?.ToString() ?? "0").ToString("N0"))
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn Caption="Engagement"
+                              FieldName="EngagementRate"
+                              Width="120">
+                <CellDisplayTemplate>
+                    @{
+                        var viewCount = ulong.Parse(context.Grid.GetRowValue(context.VisibleIndex, "ViewCount")?.ToString() ?? "0");
+                        var likeCount = ulong.Parse(context.Grid.GetRowValue(context.VisibleIndex, "LikeCount")?.ToString() ?? "0");
+                        var commentCount = ulong.Parse(context.Grid.GetRowValue(context.VisibleIndex, "CommentCount")?.ToString() ?? "0");
+                        var engagementRate = viewCount > 0 ? (double)(likeCount + commentCount) / viewCount : 0;
+                        @($"{engagementRate:P2}")
+                    }
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn Caption="Published"
+                              FieldName="PublishedAt"
+                              Width="150">
+                <CellDisplayTemplate>
+                    @(DateTime.Parse(context.Value?.ToString() ?? DateTime.MinValue.ToString()).ToString("g"))
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+        </Columns>
+        <ToolbarTemplate>
+            <DxToolbar ItemRenderStyleMode="ToolbarRenderStyleMode.Plain">
+                <Items>
+                    <DxToolbarItem BeginGroup="true" Alignment="ToolbarItemAlignment.Left">
+                        <Template Context="toolbarItem">
+                            <div class="d-flex flex-row align-items-center h-100">
+                                <div class="me-2" id="@sortOptionId">Sort by:</div>
+                                <DxComboBox Data="@SortInfo.Keys"
+                                            Value="@CurrentSortInfoKey"
+                                            ValueChanged="@((string value) => ChangeSorting(value))"
+                                            CssClass="ow-180"/>
+                            </div>
+                        </Template>
+                    </DxToolbarItem>
+                </Items>
+            </DxToolbar>
+        </ToolbarTemplate>
+    </DxGrid>
+</div>
+
+@code {
+    private DxGrid? grid;
+    private List<VideoData> Videos { get; set; } = new();
+    private string? nextPageToken;
+    private const string ChannelId = "UCrXy6qF4gvG9no1ShAZmrjQ";
+    private string sortOptionId = "sort-by-option";
+    private string CurrentSortInfoKey { get; set; } = "Published Date";
+
+    private Dictionary<string, string[]> SortInfo { get; } = new Dictionary<string, string[]>
+    {
+        { "Published Date", new[] { "PublishedAt" } },
+        { "Views Count", new[] { "ViewCount" } },
+        { "Engagement Rate", new[] { "EngagementRate" } }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadVideos();
+    }
+
+    private async Task LoadVideos()
+    {
+        try
+        {
+            var response = await ApiClient.GetVideosAsync(ChannelId, maxResults: 50);
+
+            if (response?.Videos != null)
+            {
+                Videos = response.Videos.ToList();  // Convert IEnumerable to List
+                nextPageToken = response.NextPageToken;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading videos: {ex.Message}");
+        }
+    }
+
+    private async Task LoadMoreData()
+    {
+        if (string.IsNullOrEmpty(nextPageToken)) return;
+
+        try
+        {
+            var response = await ApiClient.GetVideosAsync(ChannelId, pageToken: nextPageToken, maxResults: 50);
+
+            if (response?.Videos != null)
+            {
+                Videos.AddRange(response.Videos);
+                nextPageToken = response.NextPageToken;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading more videos: {ex.Message}");
+        }
+    }
+
+    private void OnCustomizeElement(GridCustomizeElementEventArgs e)
+    {
+        if (e.ElementType == GridElementType.DataRow && e.VisibleIndex >= Videos.Count - 10)
+        {
+            LoadMoreData().ConfigureAwait(false);
+        }
+    }
+
+    private void ChangeSorting(string key)
+    {
+        CurrentSortInfoKey = key;
+        var currentSortInfo = SortInfo[key];
+        if (grid != null)
+        {
+            grid.BeginUpdate();
+            grid.ClearSort();
+            foreach (var columnName in currentSortInfo)
+                grid.SortBy(columnName);
+            grid.EndUpdate();
+        }
+    }
+}
+
+<style>
+    .grid-container {
+        height: calc(100vh - 100px);
+        width: 100%;
+    }
+
+    .ow-180 {
+        width: 180px;
+    }
+</style>
